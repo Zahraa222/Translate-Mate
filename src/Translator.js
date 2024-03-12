@@ -19,8 +19,7 @@ const Translator = () => {
             body: JSON.stringify({
                 q: text,
                 target: selectedLanguage,
-                //sample api, change when cloud is set up
-                //key: 'AIzaSyCf0Xy0OnhxlduyEt3K8zP-sOuu-l_u6uA1',
+                //key: 'our api key here',
             }),
             });
 
