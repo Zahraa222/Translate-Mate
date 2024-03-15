@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import './Translator.css'
+import axios from 'axios';
 
 
 const Translator = () => {
@@ -11,22 +12,17 @@ const Translator = () => {
   const handleTranslate = () => {
     // call the translation API
     const fetchTranslation = async () => {
-        const response = await fetch('https://translation.googleapis.com/language/translate/v2',
-        { method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                q: text,
-                target: selectedLanguage,
-                //key: 'our api key here',
-            }),
-            });
+    axios.post(`https://translation.googleapis.com/language/translate/v2`,null, { params: {
+      key: process.env.REACT_APP_TRANSLATION_API_KEY,
+      q: text,
+      target: selectedLanguage,
+    }})
 
-    // set the translated text
-    const result = await response.json();
-    setTranslatedText(result.data.translations[0].translatedText);
-    }
+    .then((response) => {
+      setTranslatedText(response.data.data.translations[0].translatedText);
+    })
+    .catch((err) => console.error(err));
+  }
     fetchTranslation();
   }
 
