@@ -1,7 +1,7 @@
 import React from 'react';
-import './App.css';
-import Translator from './Translator';
-import './Translator.css';
+import './assets/App.css';
+import Translator from './components/translator/translator';
+import './assets/index.css';
 
 function App() {
   return (

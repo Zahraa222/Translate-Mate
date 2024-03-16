@@ -1,8 +1,9 @@
 {
-  "name": "translatepal",
+  "name": "translate-mate",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@google-cloud/translate": "^8.1.0",
     "@reduxjs/toolkit": "^1.9.7",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -37,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
