@@ -1,3 +1,12 @@
+# App Progress:
+
+
+<div align="center">
+  <img src="./images/UI_progress.png" alt="Step 1" style="width: 400px;" />
+  <p>1. After Implementing the following APIs: <a href="https://cloud.google.com/translate/docs/reference/rest" target="_blank">Cloud Translation</a> & <a href="https://cloud.google.com/text-to-speech?hl=en" target="_blank">Cloud Text-to-Speech</a> 
+
+</div>
+
 # Getting Started with Create React App and Redux
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
