@@ -3,6 +3,7 @@ import './assets/App.css';
 import Translator from './components/translator/translator';
 import './assets/index.css';
 
+
 function App() {
   return (
     <div className="App">

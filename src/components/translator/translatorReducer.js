@@ -19,6 +19,15 @@ const translatedTextReducer = (state = '', action) => {
   }
 };
 
+const audioFileReducer = (state = '', action) => {
+  switch (action.type) {
+    case actions.SET_AUDIO_FILE:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 const selectedLanguageReducer = (state = 'en', action) => {
   switch (action.type) {
     case actions.SET_SELECTED_LANGUAGE:
@@ -32,6 +41,7 @@ const rootReducer = combineReducers({
   text: textReducer,
   translatedText: translatedTextReducer,
   selectedLanguage: selectedLanguageReducer,
+  audioFile: audioFileReducer
 });
 
 export default rootReducer;
