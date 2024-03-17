@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setText, setSelectedLanguage, setTranslatedText } from './actions';
+import { setText, setSelectedLanguage, setTranslatedText, setAudioFile } from './actions';
 import '../../assets/index.css';
 import axios from 'axios';
 const languagesData= require('../../assets/languageList.json') //I got this data by hitting the https://translation.googleapis.com/language/translate/v2/languages endpoint which returns this data to save on query costs
@@ -8,8 +8,10 @@ const languagesData= require('../../assets/languageList.json') //I got this data
 const Translator = () => {
   const text = useSelector(state => state.text);
   const translatedText = useSelector(state => state.translatedText);
+  const audioFile = useSelector(state => state.audioFile);
   const selectedLanguage = useSelector(state => state.selectedLanguage);
   const dispatch = useDispatch();
+  const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
 
 
   const handleTranslate = () => {
@@ -22,6 +24,33 @@ const Translator = () => {
     })
       .then((response) => {
         dispatch(setTranslatedText(response.data.data.translations[0].translatedText));
+        setAudioPlayerVisible(false); 
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const handleVoice = () => {
+    const requestBody = {
+      input: {
+        text: translatedText
+      },
+      voice: {
+        languageCode: 'en-US',
+        ssmlGender: 'NEUTRAL'
+      },
+      audioConfig: {
+        audioEncoding: 'MP3'
+      }
+    };
+    
+    axios.post(`https://texttospeech.googleapis.com/v1/text:synthesize`, requestBody, {
+      params: {
+        key: process.env.REACT_APP_TRANSLATION_API_KEY,
+      }
+    })
+      .then((response) => {
+        dispatch(setAudioFile(response.data.audioContent));
+        setAudioPlayerVisible(true); 
       })
       .catch((err) => console.error(err));
   };
@@ -40,6 +69,18 @@ const Translator = () => {
       <button id='translator' className='submitbtn' onClick={handleTranslate}>Translate</button>
       <h4 id='translator' className='subtitle'>Translated Text</h4>
       <p id='translator' className='output'>{translatedText}</p>
+      <button id='translator' className='submitbtn' onClick={handleVoice}>Listen to Translated Text</button>
+      {audioPlayerVisible && (
+        <div>
+          <p>
+            <audio controls>
+              <source src={`data:audio/mp3;base64,${audioFile}`} type="audio/mp3" />
+              Your browser does not support the audio element.
+            </audio>
+            <br />
+          </p>
+        </div>
+      )}
     </div>
   );
 };
