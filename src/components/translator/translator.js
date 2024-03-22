@@ -12,6 +12,7 @@ const Translator = () => {
   const selectedLanguage = useSelector(state => state.selectedLanguage);
   const dispatch = useDispatch();
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
+  const [name, setName] = useState('');
   const [translations, setTranslations] = useState([]); //for sql
 
 
@@ -38,8 +39,21 @@ console.log(translations);
       }
     })
       .then((response) => {
-        dispatch(setTranslatedText(response.data.data.translations[0].translatedText));
+        const translatedText = response.data.data.translations[0].translatedText; //created as a variable to add to database
+        dispatch(setTranslatedText(translatedText));
         setAudioPlayerVisible(false); 
+
+        //send to server
+        return axios.post('/api/saveTranslation', {
+          name,
+          originalText: text,
+          translatedText,
+          pronunciation: ' ', //cannot add mp3 file to databse, can use cloud storage to save the file and attach its url here
+          language: selectedLanguage,
+        });
+      })
+      .then(response => {
+        console.log('Saved Translation: ' + response.data);
       })
       .catch((err) => console.error(err));
   };
@@ -73,6 +87,8 @@ console.log(translations);
   return (
     <div className='body' id='translator'>
       <h1 className='title' id='translator'>Welcome to Translate Mate!</h1>
+      <h3 className='subtitle' id = 'translator'>Please Enter your name</h3>
+      <input id = 'translator' className='input' value={name} onChange={(e) => setName(e.target.value)} placeholder='Enter your name' />
       <h4 className='subtitle' id='translator'>Enter the text you want to translate</h4>
       <input id='translator' className='input' value={text} onChange={(e) => dispatch(setText(e.target.value))} placeholder='Enter text' />
       <h4 id='translator' className='subtitle'>Select the language you want to translate to</h4>
@@ -94,17 +110,9 @@ console.log(translations);
             </audio>
             <br />
           </p>
-          
-          <div className='translations'>
-            <h4>Translation History</h4>
-            <ul>
-              {translations.map((translation, index) => (
-                <li key={index}> {translation.guestName}: {translation.content}</li>
-              ))}
-            </ul>
-            </div>
         </div>
       )}
+      <button id = 'translator' className='submitbtn'>View your translation history</button>
     </div>
   );
 };
