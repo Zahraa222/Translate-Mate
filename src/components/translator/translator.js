@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setText, setSelectedLanguage, setTranslatedText, setAudioFile } from './actions';
 import '../../assets/index.css';
@@ -12,6 +12,21 @@ const Translator = () => {
   const selectedLanguage = useSelector(state => state.selectedLanguage);
   const dispatch = useDispatch();
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
+  const [translations, setTranslations] = useState([]); //for sql
+
+
+useEffect(() => {
+  axios.get('/api/translations')
+  .then(response => {
+    setTranslations(response.data);
+  })
+  .catch(error => {
+    console.error('cannot fetch translations. error: ', error);
+  })
+}, []);
+
+console.log(translations);
+
 
 
   const handleTranslate = () => {
@@ -79,6 +94,15 @@ const Translator = () => {
             </audio>
             <br />
           </p>
+          
+          <div className='translations'>
+            <h4>Translation History</h4>
+            <ul>
+              {translations.map((translation, index) => (
+                <li key={index}> {translation.guestName}: {translation.content}</li>
+              ))}
+            </ul>
+            </div>
         </div>
       )}
     </div>
