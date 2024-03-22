@@ -15,6 +15,7 @@ const Translator = () => {
   const [name, setName] = useState('');
   const [translations, setTranslations] = useState([]); //for sql
   const [history, setHistory] = useState([]);
+  const [showHistory, setShowHistory] = useState([false]); //control table visibility
 
 
 
@@ -37,7 +38,7 @@ const Translator = () => {
           name,
           originalText: text,
           translatedText,
-          pronunciation: ' ', //cannot add mp3 file to databse, can use cloud storage to save the file and attach its url here
+          pronunciation: 'N/A', //cannot add mp3 file to databse, can use cloud storage to save the file and attach its url here
           language: selectedLanguage,
         });
       })
@@ -90,6 +91,7 @@ const Translator = () => {
     axios.get(`/api/translations/${name}`)
     .then(response => {
       setHistory(response.data);
+      setShowHistory(true);
     })
     .catch(error => {
       console.error('Error fetching History: ' + error);
@@ -112,7 +114,7 @@ const Translator = () => {
       <button id='translator' className='submitbtn' onClick={handleTranslate}>Translate</button>
       <h4 id='translator' className='subtitle'>Translated Text</h4>
       <p id='translator' className='output'>{translatedText}</p>
-      <button id='translator' className='submitbtn' onClick={handleVoice}>Listen to Translated Text</button>
+      <button id='translator' className='voice' onClick={handleVoice}><img className = 'listen' src="listenImage.png" alt = "Listen to Translated Text" /></button>
       {audioPlayerVisible && (
         <div>
           <p>
@@ -125,18 +127,20 @@ const Translator = () => {
         </div>
       )}
       <button id = 'translator' className='submitbtn' onClick={viewHistory}>View your translation history</button>
-      <h3>Translation History for {name}</h3>
-      <table>
+      {showHistory && history.length > 0 && (
+      <>
+      <h3 id = 'translator' className='historytitle'>Translation History for {name}</h3>
+      <table className='table'>
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Original Text</th>
+          <tr className = 'tr'>
+            <th>  Name  </th>
+            <th>Text</th>
             <th>Translated Text</th>
             <th>Pronunciation</th>
             <th>Language</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className='tbody'>
           {history.map((item, index) => (
             <tr key = {index}>
               <td>{item.name}</td>
@@ -148,8 +152,8 @@ const Translator = () => {
           ))}
         </tbody>
       </table>
-      
-    </div>
+      </>
+      )}</div>
   );
 };
 

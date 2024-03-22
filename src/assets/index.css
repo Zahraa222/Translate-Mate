@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #95dbd9;
 }
 
 code {
@@ -62,6 +63,18 @@ code {
   transition: background-color 0.3s ease-in-out;
 }
 
+#translator.voice{
+  background: transparent;
+  cursor:pointer;
+
+}
+
+#translator.voice .listen{
+  width: 90px;
+  height: 90px;
+  
+}
+
 #translator.submitbtn:hover {
   background-color: rgb(65, 54, 87);
   color: white;
@@ -82,4 +95,31 @@ code {
   font-size: 1.2rem;
   margin-bottom: 1rem;
   text-align: left;
+}
+
+#translator.historytitle{
+  color: white;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.table{
+  background-color: rgba(149, 160, 160, 0.54);
+  border-radius: 1rem;
+  border-collapse: separate;
+  border-spacing: 15px;
+  position: relative;
+}
+
+.tr{
+  color: rgb(27, 27, 58);
+  font-family:monospace;
+  font-size: large;
+  align-items: center;
+
+}
+
+.tbody{
+  color: aliceblue;
 }
