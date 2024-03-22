@@ -36,6 +36,22 @@ app.post('/api/saveTranslation', (req, res) => {
     });
 });
 
+//endpoint to fetch requested history
+app.get('/api/translations/:name', (req, res) => {
+    const name = req.params.name;
+
+    //selecting data from sql
+    const query = 'SELECT * FROM translations WHERE name = ?';
+    db.connection.query(query, [name], (err,results) => {
+        if (err){
+            console.error('Cannot fetch translation for name ' + name + ' Error: ' + err);
+            res.status(500).send('Error fetching translation');
+            return;
+        }
+        res.json(results);
+    });
+});
+
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });

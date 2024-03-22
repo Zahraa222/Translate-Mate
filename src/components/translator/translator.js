@@ -14,19 +14,8 @@ const Translator = () => {
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [name, setName] = useState('');
   const [translations, setTranslations] = useState([]); //for sql
+  const [history, setHistory] = useState([]);
 
-
-useEffect(() => {
-  axios.get('/api/translations')
-  .then(response => {
-    setTranslations(response.data);
-  })
-  .catch(error => {
-    console.error('cannot fetch translations. error: ', error);
-  })
-}, []);
-
-console.log(translations);
 
 
 
@@ -84,6 +73,29 @@ console.log(translations);
       .catch((err) => console.error(err));
   };
 
+
+  useEffect(() => {
+    axios.get('/api/translations')
+    .then(response => {
+      setTranslations(response.data);
+    })
+    .catch(error => {
+      console.error('cannot fetch translations. error: ', error);
+    })
+  }, []);
+  console.log(translations);
+
+
+  const viewHistory = () => {
+    axios.get(`/api/translations/${name}`)
+    .then(response => {
+      setHistory(response.data);
+    })
+    .catch(error => {
+      console.error('Error fetching History: ' + error);
+    })
+  }
+
   return (
     <div className='body' id='translator'>
       <h1 className='title' id='translator'>Welcome to Translate Mate!</h1>
@@ -112,7 +124,31 @@ console.log(translations);
           </p>
         </div>
       )}
-      <button id = 'translator' className='submitbtn'>View your translation history</button>
+      <button id = 'translator' className='submitbtn' onClick={viewHistory}>View your translation history</button>
+      <h3>Translation History for {name}</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Original Text</th>
+            <th>Translated Text</th>
+            <th>Pronunciation</th>
+            <th>Language</th>
+          </tr>
+        </thead>
+        <tbody>
+          {history.map((item, index) => (
+            <tr key = {index}>
+              <td>{item.name}</td>
+              <td>{item.word_to_be_translated}</td>
+              <td>{item.translated_word}</td>
+              <td>{item.pronunciation}</td>
+              <td>{item.language}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      
     </div>
   );
 };
