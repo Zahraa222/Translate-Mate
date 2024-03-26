@@ -38,7 +38,6 @@ const Translator = () => {
           name,
           originalText: text,
           translatedText,
-          pronunciation: 'N/A', //cannot add mp3 file to databse, can use cloud storage to save the file and attach its url here
           language: selectedLanguage,
         });
       })
@@ -136,7 +135,6 @@ const Translator = () => {
             <th>  Name  </th>
             <th>Text</th>
             <th>Translated Text</th>
-            <th>Pronunciation</th>
             <th>Language</th>
           </tr>
         </thead>
@@ -146,7 +144,6 @@ const Translator = () => {
               <td>{item.name}</td>
               <td>{item.word_to_be_translated}</td>
               <td>{item.translated_word}</td>
-              <td>{item.pronunciation}</td>
               <td>{item.language}</td>
             </tr>
           ))}

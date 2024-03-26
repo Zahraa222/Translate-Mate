@@ -22,11 +22,11 @@ app.get('/api/translations', (req, res) => {
 app.use(express.json()); //for parsing JSON
 
 app.post('/api/saveTranslation', (req, res) => {
-    const {name, originalText, translatedText, pronunciation, language} = req.body;
+    const {name, originalText, translatedText, language} = req.body;
 
     //adding to sql database
-    const query = 'INSERT INTO translations (name, word_to_be_translated, translated_word, pronunciation, language) VALUES(?,?,?,?,?)';
-    db.connection.query(query, [name, originalText, translatedText, pronunciation, language], (err,results) => {
+    const query = 'INSERT INTO translations (name, word_to_be_translated, translated_word, language) VALUES(?,?,?,?)';
+    db.connection.query(query, [name, originalText, translatedText, language], (err,results) => {
         if (err){
             console.error('Cannot save translation. Error: ' + err);
             res.status(500).send('Error saving translation');
