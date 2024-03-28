@@ -35,7 +35,6 @@ const Translator = () => {
           name,
           originalText: text,
           translatedText,
-          pronunciation: 'N/A', //cannot add mp3 file to databse, can use cloud storage to save the file and attach its url here
           language: selectedLanguage,
         });
       })
