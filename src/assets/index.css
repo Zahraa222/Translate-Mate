@@ -64,7 +64,6 @@ code {
 }
 
 #translator.voice{
-  background: transparent;
   cursor:pointer;
 
 }
@@ -72,7 +71,7 @@ code {
 #translator.voice .listen{
   width: 90px;
   height: 90px;
-  
+
 }
 
 #translator.submitbtn:hover {
@@ -83,6 +82,7 @@ code {
 #translator.output {
   margin-top: 1rem;
   padding: 1rem;
+  margin-bottom:0.5rem;
   border-radius: 4px;
   background-color: rgba(255, 255, 255, 0.9);
   color: rgb(112, 76, 182);
@@ -108,8 +108,10 @@ code {
   background-color: rgba(149, 160, 160, 0.54);
   border-radius: 1rem;
   border-collapse: separate;
-  border-spacing: 15px;
+  border-spacing: 25px;
   position: relative;
+  left: 50%;
+  transform: translate(-50%);
 }
 
 .tr{
@@ -122,4 +124,5 @@ code {
 
 .tbody{
   color: aliceblue;
+  
 }

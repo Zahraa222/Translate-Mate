@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setText, setSelectedLanguage, setTranslatedText, setAudioFile } from './actions';
 import '../../assets/index.css';
@@ -13,11 +13,8 @@ const Translator = () => {
   const dispatch = useDispatch();
   const [audioPlayerVisible, setAudioPlayerVisible] = useState(false);
   const [name, setName] = useState('');
-  const [translations, setTranslations] = useState([]); //for sql
   const [history, setHistory] = useState([]);
-  const [showHistory, setShowHistory] = useState([false]); //control table visibility
-
-
+  const [showHistory, setShowHistory] = useState([false]); 
 
 
   const handleTranslate = () => {
@@ -74,19 +71,6 @@ const Translator = () => {
       .catch((err) => console.error(err));
   };
 
-
-  useEffect(() => {
-    axios.get('/api/translations')
-    .then(response => {
-      setTranslations(response.data);
-    })
-    .catch(error => {
-      console.error('cannot fetch translations. error: ', error);
-    })
-  }, []);
-  console.log(translations);
-
-
   const viewHistory = () => {
     axios.get(`/api/translations/${name}`)
     .then(response => {
@@ -97,7 +81,6 @@ const Translator = () => {
       console.error('Error fetching History: ' + error);
     })
   }
-
   return (
     <div className='body' id='translator'>
       <h1 className='title' id='translator'>Welcome to Translate Mate!</h1>
@@ -136,7 +119,6 @@ const Translator = () => {
             <th>  Name  </th>
             <th>Text</th>
             <th>Translated Text</th>
-            <th>Pronunciation</th>
             <th>Language</th>
           </tr>
         </thead>
@@ -146,7 +128,6 @@ const Translator = () => {
               <td>{item.name}</td>
               <td>{item.word_to_be_translated}</td>
               <td>{item.translated_word}</td>
-              <td>{item.pronunciation}</td>
               <td>{item.language}</td>
             </tr>
           ))}

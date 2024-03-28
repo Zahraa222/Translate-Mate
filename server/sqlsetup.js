@@ -1,11 +1,12 @@
+require('dotenv').config({ path: '.env.local' });
 const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
-    host: '127.0.0.1', //ip address might vary based on what's provided when creating a proxy
-    user: 'root',
-    database: 'TranslationHistory',
-    password: 'ECE428',
-    port: 3306
+    host: process.env.REACT_APP_DB_HOST, 
+    user: process.env.REACT_APP_DB_USER,
+    database: process.env.REACT_APP_DB_NAME,
+    password: process.env.REACT_APP_DB_PASS,
+    port: process.env.REACT_APP_DB_PORT
 });
 
 const getTranslations = (callback) => {
