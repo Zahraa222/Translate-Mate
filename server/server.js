@@ -2,23 +2,10 @@ const express = require('express');
 const app = express();
 const port = 4000;
 const cors = require('cors');
-const db = require('./Scripts/sqlsetup');
+const db = require('./sqlsetup');
 
 app.use(cors());
 
-//endpoint to get translations
-app.get('/api/translations', (req, res) => {
-    db.getTranslations((err, results) => {
-        if (err) {
-            console.error('Error fetching translations: ' + err);
-            res.status(500).send('Error fetching translations');
-            return;
-        }
-        res.json(results);
-    });
-});
-
-//endpoint to save translations
 app.use(express.json()); //for parsing JSON
 
 app.post('/api/saveTranslation', (req, res) => {
