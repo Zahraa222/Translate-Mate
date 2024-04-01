@@ -6,6 +6,12 @@ const db = require('./sqlsetup');
 
 app.use(cors());
 
+app.use(express.static("public"))
+
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, '../public/index.html'))
+})
+
 app.use(express.json()); //for parsing JSON
 
 app.post('/api/saveTranslation', (req, res) => {
